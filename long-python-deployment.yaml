@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-and-ruby-deployment
+  namespace: application
+  labels:
+    app: user-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-app
+  template:
+    metadata:
+      labels:
+        app: user-app
+    spec:
+      containers:
+        - name: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          image: python:3.7 # Replace with your Python image
+          command: ["python3", "-u", "your-python-script.py"]
+          volumeMounts:
+            - name: python-script-volume
+              mountPath: /your-python-script.py
+              subPath: your-python-script.py
+      volumes:
+        - name: python-script-volume
+          configMap:
+            name: python-script-configmap
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: python-script-configmap
+  namespace: application
+data:
+  your-python-script.py: |
+    while True:
+      pass
