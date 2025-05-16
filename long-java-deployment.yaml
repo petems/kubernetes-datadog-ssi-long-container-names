@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app
+  namespace: application
+  labels:
+    app: java-app
+    # tags.datadoghq.com/env: "lab"
+    # tags.datadoghq.com/service: "short-java-name"
+    # tags.datadoghq.com/version: "1.0.0" 
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    metadata:
+      labels:
+        app: java-app
+        # tags.datadoghq.com/env: "lab"
+        # tags.datadoghq.com/service: "short-java-name"
+        # tags.datadoghq.com/version: "1.0.0" 
+    spec:
+      containers:
+        - name: long-name-is-close-to-63-characters-to-trigger-the-dns-issue
+          image: petems/datadog-java-apm-demo:f697397b
+          # env:
+          # - name: DD_ENV
+          #   valueFrom:
+          #     fieldRef:
+          #       fieldPath: metadata.labels['tags.datadoghq.com/env']
+          # - name: DD_SERVICE
+          #   valueFrom:
+          #     fieldRef:
+          #       fieldPath: metadata.labels['tags.datadoghq.com/service']
+          # - name: DD_VERSION 
+          #   valueFrom: 
+          #     fieldRef: 
+          #       fieldPath: metadata.labels['tags.datadoghq.com/version']

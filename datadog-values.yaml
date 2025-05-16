@@ -1,0 +1,42 @@
+datadog:
+  apiKeyExistingSecret: datadog-secret
+  kubelet:
+    tlsVerify: false
+
+  # datadog.apm.instrumentation.enabled
+  apm:
+    instrumentation:
+      enabled: true
+
+  logs:
+    enabled: true
+    containerCollectAll: true
+
+agents:
+  telemetry: enabled
+  containers:
+    agent:
+      env:
+        - name: DD_LANGUAGE_DETECTION_REPORTING_REFRESH_PERIOD
+          value: "25s"
+
+clusterAgent:
+  enabled: true
+  admissionController:
+    enabled: true
+    mutateUnlabelled: true
+  env:
+    - name: DD_ADMISSION_CONTROLLER_AUTO_INSTRUMENTATION_INJECT_AUTO_DETECTED_LIBRARIES
+      value: true
+    - name: DD_CLUSTER_AGENT_LANGUAGE_DETECTION_PATCHER_BASE_BACKOFF
+      value: "10s"
+    - name: DD_CLUSTER_AGENT_LANGUAGE_DETECTION_PATCHER_MAX_BACKOFF
+      value: "1m"
+    - name: DD_CLUSTER_AGENT_LANGUAGE_DETECTION_CLEANUP_PERIOD
+      value: "4m"
+    - name: DD_CLUSTER_AGENT_LANGUAGE_DETECTION_CLEANUP_LANGUAGE_TTL
+      value: "2m"
+    - name: DD_LOG_LEVEL
+      value: "debug"
+    - name: DD_APM_INSTRUMENTATION_DEBUG
+      value: "true"
